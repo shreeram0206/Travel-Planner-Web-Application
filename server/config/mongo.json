@@ -1,0 +1,7 @@
+{
+    "host":"mongodb",
+    "port":"27017",
+    "db":"ee547_project",
+    "user_collection": "users",
+    "opts":{"useUnifiedTopology":true}
+}
