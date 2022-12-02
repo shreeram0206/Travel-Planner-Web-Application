@@ -19,7 +19,7 @@
           <a href="/">About</a>
         </li>
         <li>
-          <a href="/">Profile</a>
+          <a href="/profile" id="profile">Profile</a>
         </li>
         <li>
           <a href="/">Media</a>
@@ -29,7 +29,14 @@
         </li>
       </ul>
       
-      <button type="button" class="secondary" v-on:click="signIn" id="signIn-button">Sign In</button>
+      <div id="signIn-button">
+        <button type="button" class="secondary" v-on:click="signIn" v-if="showSignIn">Sign In</button>
+        <ul>
+          <li>
+            <a v-if="showSignedInUser">Hello, Shreeram Narayanan</a>
+          </li>
+        </ul>
+      </div>
     </section>
     
     <section class="slide">
@@ -69,6 +76,7 @@
 
 <script>
   let URL = "/auth/google"
+  let URL_profile = "/profile"
     // const router = new VueRouter({
     //     routes: [
     //         {
@@ -80,11 +88,18 @@
     // });
     const signIn = new Vue({
       el : '#signIn-button',
+      data : {
+        showSignIn: true,
+        showSignedInUser: false
+      },
       methods: {
         signIn : function(){
             console.log("Sign in done");
             // alert("Sign-in button clicked")
             window.location.href = URL;
+            this.showSignIn = false;
+            // this.showSignedInUser = true;
+            console.log(this.showSignedInUser);
 
             // this.$router.push('/login')
         }

@@ -12,6 +12,10 @@ router.get('/', (req, res) => {
     res.sendFile('/project/server/views/landing_page.html')
 })
 
+router.get('/profile', (req, res) => {
+    res.sendFile('/project/server/views/profile.html')
+})
+
 
 // @desc    Dashboard
 // @method  GET

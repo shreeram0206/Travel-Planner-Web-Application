@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+
+<div class="container">
+    <section class="menu">
+      <div class="logo">
+        <button type="button" class="main nav"></button>
+        <span>TravelPlanner</span>
+      </div>
+        
+      <ul>
+        <li class="active">
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/">About</a>
+        </li>
+        <li>
+          <a v-on:click="profile" id="profile">Profile</a>
+        </li>
+        <li>
+          <a href="/">Media</a>
+        </li>
+        <li>
+          <a href="/">Trip</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="slide">
+        <div class="desc">
+          <small>View your profile here</small>
+        </div>
+      </section>
+
+<body>
+    <div class="profile-container">
+        <div class="profile-box">
+            <img src="images/menu.png" class="menu-icon">
+            <img src="images/setting.png" class="setting-icon">
+            <img src="images/profile-pic.jpg" class="profile-pic">
+            <h3>Shreeram Narayanan</h3>
+            <p>Student, University of Southern California</p>
+        </div>
+
+    </div>
+</body>
+</html>
