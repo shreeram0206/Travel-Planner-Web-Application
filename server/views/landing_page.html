@@ -28,7 +28,7 @@
           <a href="/">Trip</a>
         </li>
       </ul>
-  
+      
       <button type="button" class="secondary" v-on:click="signIn" id="signIn-button">Sign In</button>
     </section>
     
@@ -68,7 +68,7 @@
 </div>
 
 <script>
-    // import { VueRouter } from 'vue-router';
+  let URL = "/auth/google"
     // const router = new VueRouter({
     //     routes: [
     //         {
@@ -79,14 +79,16 @@
     //     ]
     // });
     const signIn = new Vue({
-    el : '#signIn-button',
-    methods: {
+      el : '#signIn-button',
+      methods: {
         signIn : function(){
-            // console.log(this.counter)
-            alert("Sign in button clicked")
+            console.log("Sign in done");
+            // alert("Sign-in button clicked")
+            window.location.href = URL;
+
             // this.$router.push('/login')
         }
-    }
-})
+      }
+    })
 </script>
 </html>
