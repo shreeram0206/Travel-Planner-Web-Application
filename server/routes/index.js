@@ -28,5 +28,16 @@ router.get('/login', (req, res) => {
     res.send('Login')
 })
 
+router.get('/about',(req, res)=> {
+    res.sendFile('/project/server/views/about.html')
+})
+
+router.get('/profile',(req, res)=> {
+    res.sendFile('/project/server/views/profile.html')
+})
+
+router.get('/trip',(req, res)=> {
+    res.sendFile('/project/server/views/trip.html')
+})
 
 module.exports = router

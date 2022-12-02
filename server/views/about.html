@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+
+<div class="container">
+    <section class="menu">
+      <div class="logo">
+        <button type="button" class="main nav"></button>
+        <span>TravelPlanner</span>
+      </div>
+        
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li class="active">
+          <a href="/">About</a>
+        </li>
+        <li>
+          <a href="/">Profile</a>
+        </li>
+        <li>
+          <a href="/">Trip</a>
+        </li>
+      </ul>
+  
+      <button type="button" class="secondary" v-on:click="signIn" id="signIn-button">Sign In</button>
+    </section>
+
+    <section class="slide">
+        <div class="desc">
+          <small>Get ready for Chilling</small>
+          <h1><span>Discover</span> The<br>Most Engaging<br>Places.</h1>
+        </div>
+        <div class="pic"></div>
+      </section>
+
+</div>
+
+<script>
+    // import { VueRouter } from 'vue-router';
+    // const router = new VueRouter({
+    //     routes: [
+    //         {
+    //         path: '/login',
+    //         name: 'login',
+    //         component: SignInComponent,
+    //         }
+    //     ]
+    // });
+    const signIn = new Vue({
+    el : '#signIn-button',
+    methods: {
+        signIn : function(){
+            // console.log(this.counter)
+            alert("Sign in button clicked")
+            // this.$router.push('/login')
+        }
+    }
+})
+</script>
+</html>
