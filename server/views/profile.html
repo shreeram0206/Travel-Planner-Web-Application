@@ -14,17 +14,14 @@
       </div>
         
       <ul>
-        <li class="active">
+        <li>
           <a href="/">Home</a>
         </li>
         <li>
           <a href="/about">About</a>
         </li>
-        <li>
+        <li class="active">
           <a id="profile">Profile</a>
-        </li>
-        <li>
-          <a href="/media">Media</a>
         </li>
         <li>
           <a href="/trip">Trip</a>
@@ -39,15 +36,16 @@
       </section>
 
 <body>
-    <div class="profile-container">
+    <div class="profile-container" id="profile-info">
         <div class="profile-box">
             <img src="images/menu.png" class="menu-icon">
             <img src="images/setting.png" class="setting-icon">
             <img src="images/profile-pic.jpg" class="profile-pic">
-            <h3>Shreeram Narayanan</h3>
-            <p>Student, University of Southern California</p>
+            <h3 v-model="user_name">{{user_name}}</h3>
+            <p v-model="profile_info">{{profile_info}}</p>
         </div>
 
     </div>
 </body>
+<script src="/js/profile.js"></script>
 </html>
