@@ -1,0 +1,16 @@
+type Query {
+    user(uid: ID!): User
+}
+
+type User {
+    display_name: String!
+    fname: String!
+    google_id: String!
+    image: String
+    lname: String
+    trips: [Trip]
+}
+
+type Trip {
+    destination: String!
+}
