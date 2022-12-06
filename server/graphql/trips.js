@@ -17,6 +17,9 @@ let resolvers = {
         admin: async ({admin_id}, _, context) => {
             return context.loaders.user.load(admin_id)
         },
+        media: async ({media}, _, context) => {
+            return media.map(m => {return m.Location})
+        },
     },
     Mutation: {
         createTrip: async (_, {trip_input:{destination, admin_id}}, context) => {
@@ -35,7 +38,7 @@ let resolvers = {
                 throw new kErrors.kUnknownError()
             }
         },
-    }
+    },
 }
 
 

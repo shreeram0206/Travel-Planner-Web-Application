@@ -1,5 +1,6 @@
 type Query {
     user(uid: ID!): User
+    trip(tid: ID!): Trip
 }
 
 type Mutation {
@@ -26,6 +27,7 @@ type Trip {
     admin: User!
     members: [User]!
     expenses: [Expense]!
+    media: [String]!
 }
 
 type Place {
