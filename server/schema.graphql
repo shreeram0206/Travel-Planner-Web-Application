@@ -2,6 +2,16 @@ type Query {
     user(uid: ID!): User
 }
 
+type Mutation {
+    addExpense (
+        expense_input: AddExpenseInput
+    ): Expense
+
+    createTrip (
+        trip_input: TripCreateInput
+    ): Trip
+}
+
 type User {
     display_name: String!
     fname: String!
@@ -12,5 +22,35 @@ type User {
 }
 
 type Trip {
+    destination: Place!
+    admin: User!
+    members: [User]!
+    expenses: [Expense]!
+}
+
+type Place {
+    id: String!
+    overview: String
+    lat: Float!
+    lng: Float!
+}
+
+type Expense {
+    title: String!
+    amount: Float!
+    paid_by: String!
+    included_members: [User]!
+}
+
+input TripCreateInput {
     destination: String!
+    admin_id: ID!
+}
+
+input AddExpenseInput {
+    trip_id: ID!
+    title: String!
+    amount: Float!
+    paid_by: String!
+    included_members: [String]!
 }

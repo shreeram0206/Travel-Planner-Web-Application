@@ -8,11 +8,14 @@ const { graphqlHTTP } = require('express-graphql')
 const DataLoader = require('dataloader')
 const { readFileSync } = require('fs')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-const { MongoClient, ObjectId } = require('mongodb')
+const { ObjectId } = require('mongodb')
 const passport = require('passport')
 const { mongo_bot, mongo_config } = require('./config/db')
 const { user_resolvers } = require('./graphql/users')
 const { query_resolvers } = require('./graphql/queries')
+const { expense_resolvers } = require('./graphql/expenses')
+const { trip_resolvers } = require('./graphql/trips')
+const { place_resolvers } = require('./graphql/places')
 
 mongo_bot.init()
 
@@ -47,7 +50,14 @@ let typeDefs = readFileSync(graphql_schema).toString('utf-8')
 
 let resolvers = {
     User: user_resolvers.User,
+    Trip: trip_resolvers.Trip,
+    Expense: expense_resolvers.Expense,
+    Place: place_resolvers.Place,
     Query: query_resolvers.Query,
+    Mutation: {
+        ...expense_resolvers.Mutation,
+        ...trip_resolvers.Mutation
+    }
 }
 
 let schema = makeExecutableSchema({
@@ -67,7 +77,9 @@ app.use(
         context: {
             db_conn: mongo_bot,
             loaders: {
-                user: new DataLoader(keys => getUsers(mongo_bot, keys))
+                user: new DataLoader(keys => getUsers(mongo_bot, keys)),
+                trip: new DataLoader(keys => getTrips(mongo_bot, keys)),
+                place: new DataLoader(keys => getPlaces(mongo_bot, keys))
             }
         }
     })
@@ -75,11 +87,39 @@ app.use(
 
 async function getUsers(db, keys) {
     // Fetch all documents that have the key as the given google_id
-    let users = await db.db.collection(mongo_config.user_collection).find({google_id: {$in: keys}}).toArray()
+    let users = await db.db.collection(
+        mongo_config.user_collection
+    ).find({google_id: {$in: keys}}).toArray()
 
     return keys.map(key => 
         users.find(element => element.google_id === key)
-        || new Error(`User with google_id ${google_id} doesn't exist`))
+        || new Error(`User with google_id ${key} doesn't exist`))
+}
+
+
+async function getTrips(db, keys) {
+    // Convert keys to ObjectId
+    keys = keys.map(key => ObjectId(key))
+
+    // Fetch all documents that have the key as the given google_id
+    let trips = await db.db.collection(
+        mongo_config.trip_collection
+    ).find({_id: {$in: keys}}).toArray()
+
+    return keys.map(key => 
+        trips.find(element => element._id == key.toString())
+        || new Error(`Trip with _id ${key} doesn't exist`))
+}
+
+async function getPlaces(db, keys) {
+    // Fetch all documents that have the key as the given google_id
+    let places = await db.db.collection(
+        mongo_config.place_collection
+    ).find({id: {$in: keys}}).toArray()
+
+    return keys.map(key => 
+        places.find(element => element.id == key)
+        || new Error(`Place with _id ${key} doesn't exist`))
 }
 
 

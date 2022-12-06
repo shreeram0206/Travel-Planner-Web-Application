@@ -2,6 +2,8 @@
     "host":"mongodb",
     "port":"27017",
     "db":"ee547_project",
-    "user_collection": "users",
+    "user_collection": "user",
+    "trip_collection": "trip",
+    "place_collection": "place",
     "opts":{"useUnifiedTopology":true}
 }
