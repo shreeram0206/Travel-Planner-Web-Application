@@ -1,0 +1,180 @@
+/* Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+.expense-container{
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+    margin: 80px auto 30px;
+}
+.select-btn{
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.select-btn .btn-textPaidBy{
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+}
+
+.select-btn .btn-textPaidFor{
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+}
+
+.select-btn .arrow-dwn{
+    display: flex;
+    height: 21px;
+    width: 21px;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 50%;
+    background: #6e93f7;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.select-btn.open .arrow-dwn{
+    transform: rotate(-180deg);
+}
+.list-items{
+    position: relative;
+    margin-top: 15px;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+.select-btn.open ~ .list-items{
+    display: block;
+}
+.list-items .itemPaidBy{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0 15px;
+    border-radius: 8px;
+}
+
+.list-items .itemPaidFor{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0 15px;
+    border-radius: 8px;
+}
+
+.list-items .itemPaidBy:hover{
+    background-color: #e7edfe;
+}
+
+.list-items .itemPaidFor:hover{
+    background-color: #e7edfe;
+}
+
+.itemPaidBy .item-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+.itemPaidBy .checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    width: 16px;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1.5px solid #c0c0c0;
+    transition: all 0.3s ease-in-out;
+}
+.itemPaidBy.checked .checkbox{
+    background-color: #4070f4;
+    border-color: #4070f4;
+}
+
+.itemPaidFor .item-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+.itemPaidFor .checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    width: 16px;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1.5px solid #c0c0c0;
+    transition: all 0.3s ease-in-out;
+}
+.itemPaidFor.checked .checkbox{
+    background-color: #4070f4;
+    border-color: #4070f4;
+}
+
+
+.checkbox .check-icon{
+    color: #fff;
+    font-size: 11px;
+    transform: scale(0);
+    transition: all 0.2s ease-in-out;
+}
+.itemPaidBy.checked .check-icon{
+    transform: scale(1);
+}
+
+.itemPaidFor.checked .check-icon{
+    transform: scale(1);
+}
+
+.result {
+    max-width: 600px;
+    background: #fff;
+    border-radius: 5px;
+    width: 300px;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 1000px;
+    margin-left: 565px;
+    box-shadow: 0 2px 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.create_expense {
+    background-color: #ff574a;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 200px;
+    right: 10px;
+  }
+
+  .close_expense {
+    background-color: #ff574a;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 200px;
+    right: 10px;
+  }

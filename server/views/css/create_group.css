@@ -1,0 +1,83 @@
+/* Popup form style */
+
+.group-container {
+    max-width: 600px;
+    background: #fff;
+    border-radius: 5px;
+    width: 300px;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 1000px;
+    margin-left: 565px;
+    box-shadow: 0 2px 2px 3px rgba(0, 0, 0, 0.1);
+
+}
+
+.wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e4e1e1;
+
+
+}
+
+.add {
+    text-decoration: none;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #f79a89;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Dynamic class creation */
+
+.flex {
+    display: flex;
+    gap: 1.5em;
+    margin-bottom: 15px;
+
+}
+
+.delete {
+    text-decoration: none;
+    display: inline-block;
+    background: #f44336;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+input {
+    padding: 8px 10px;
+    background: #ddd;
+    border: none;
+    width: 50%;
+    border-radius: 5px;
+
+
+}
+
+input:focus {
+    outline: 1px solid #efefef;
+
+}

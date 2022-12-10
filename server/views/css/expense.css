@@ -1,0 +1,92 @@
+body {background-color : #ededed; font-family : "Open Sans", sans-serif;}
+
+h1 {padding: 40px; text-align: center; font-size: 1.5em;}
+
+li a {text-decoration : none; color : #2d2f31;}
+
+
+nav {
+  width : 560px; 
+  background: #d9d9d9;
+  margin : 40px auto; 
+}
+
+span_groups {
+  padding : 30px;
+  background : #ff574a; 
+  color : white;
+  font-size : 1.2em;
+  font-variant : small-caps;
+  cursor : pointer;
+  display: block;
+  width: 500px;
+}
+
+span_groups::after {
+  float: right;
+  right: 10%;
+  content: "+";
+}
+
+.slider {
+  clear:both;
+  width:100%;
+}
+
+.slider li {
+  height:0px;
+  line-height: 60px;
+  overflow: hidden;
+  text-align: center;
+  transition: height .4s ease;}
+
+#touch {position: absolute; opacity: 0; height: 0px;}    
+
+#touch:checked + .slider li {height: 60px;}
+
+/* Create Group buttons */
+
+.button {
+  text-align: center;
+  color: #ff574a;
+}
+
+.create_group {
+  background-color: #ff574a;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 200px;
+  right: 10px;
+}
+
+.submitGroupBox {
+  background-color: #ff574a;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 200px;
+  right: 10px;
+}
+
+.closeGroupBox {
+  background-color: #ff574a;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 200px;
+  right: 10px;
+}
+
+.button:hover {
+  opacity: 0.5;
+}
