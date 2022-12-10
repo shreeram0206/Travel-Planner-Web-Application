@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/expense.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/create_group.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <link rel="stylesheet" href="css/expense-box.css">
+        
+</head>
+
+<div class="container">
+  <section class="menu">
+    <div class="logo">
+      <button type="button" class="main nav"></button>
+      <span>TravelPlanner</span>
+    </div>
+      
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a id="profile">Profile</a>
+      </li>
+      <li class="active">
+        <a href="/trip">Trip</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="slide">
+      <div class="desc">
+        <small><%=data.group_name%></small>
+      </div>
+    </section>
+
+
+<nav>
+
+  <!-- <label for="touch"><span_groups><%=data.title%></span_groups></label> -->
+  <label for="touch"><span_groups><%=data.title%></span_groups></label>
+  <input type="checkbox" id="touch"> 
+
+  <ul class="slider" id="groups">
+    <% data.expenses.forEach(function(d) { %>
+        <li>
+            <div>
+                <%=d.title%> 
+                <%=d.amount%>
+                <%=d.paid_by.display_name%>
+            </div>
+        </li>
+      <% })%>
+  </ul>
+
+</nav>
+  <div class="button">
+    <button id="create_group" class="create_group" onclick="createExpense()">Add an Expense</button>
+  </div>
+        
+    <body>
+        <div class="result" id="expense-box">Add an Expense
+            <br></br>
+
+            <label for="fname">Expense Name:</label><br>
+            <input type="text" id="group_name" name="group_name"><br>
+            <br></br>
+
+            <label for="fname">Amount:</label><br>
+            <input type="text" id="amount" name="amount">
+            
+            <div class="expense-container">
+                <div class="select-btn" id="paid_by">
+                    
+                    <span class="btn-textPaidBy">Paid By</span>
+                    <span class="arrow-dwn">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </span>
+                </div>
+
+                <ul class="list-items">
+                    <!-- <li class="itemPaidBy">
+                        <span class="checkbox">
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </span>
+                        <span class="item-text">HTML & CSS</span>
+                    </li>
+                    <li class="itemPaidBy">
+                        <span class="checkbox">
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </span>
+                        <span class="item-text">Bootstrap</span>
+                    </li> -->
+                    <% data.members.forEach(function(d) { %>
+                        <li class="itemPaidBy">
+                            <span class="checkbox">
+                                <i class="fa-solid fa-check check-icon"></i>
+                            </span>
+                            <!-- <span class="item-text">HTML & CSS</span> -->
+                          <span class="item-text"><%=d.display_name%></span>
+                        </li>
+                    <% })%>
+                </ul>
+            </div>
+            <div class="expense-container">
+                <div class="select-btn" id="paid_for">
+                    
+                    <span class="btn-textPaidFor">Paid For</span>
+                    <span class="arrow-dwn">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </span>
+                </div>
+
+                <ul class="list-items">
+                    <% data.members.forEach(function(d) { %>
+                        <li class="itemPaidFor">
+                            <span class="checkbox">
+                                <i class="fa-solid fa-check check-icon"></i>
+                            </span>
+                            <!-- <span class="item-text">HTML & CSS</span> -->
+                          <span class="item-text"><%=d.display_name%></span>
+                        </li>
+                    <% })%>
+                    <!-- <li class="itemPaidFor">
+                        <span class="checkbox">
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </span>
+                        <span class="item-text">HTML & CSS</span>
+                    </li>
+                    <li class="itemPaidFor">
+                        <span class="checkbox">
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </span>
+                        <span class="item-text">Bootstrap</span>
+                    </li> -->
+                </ul>
+            </div> 
+            <div class="button">
+                <button id="create_expense" class="create_expense" onclick="submitExpense()">Submit</button>
+            </div>
+            <br></br>
+            <div class="button">
+                <button id="close_expense" class="close_expense" onclick="closeExpenseBox()">Close</button>
+            </div>
+            <br></br>
+        </div>
+    <script>
+
+        populateCheckBoxes(".itemPaidBy", ".itemPaidFor",  "paid_by", "paid_for");
+
+        // Close expense box at first
+        document.getElementById("expense-box").style.display = "none";
+
+        function populateCheckBoxes(item_paidBy, item_paidFor, paid_by_id, paid_for_id){
+            const selectBtnPaidBy = document.getElementById(paid_by_id),
+            selectBtnPaidFor = document.getElementById(paid_for_id),
+            itemsPaidBy = document.querySelectorAll(item_paidBy);
+            itemsPaidFor = document.querySelectorAll(item_paidFor);
+
+            selectBtnPaidBy.addEventListener("click", () => {
+                selectBtnPaidBy.classList.toggle("open");
+            });
+
+            selectBtnPaidFor.addEventListener("click", () => {
+                selectBtnPaidFor.classList.toggle("open");
+            });
+
+            itemsPaidBy.forEach(item => {
+                item.addEventListener("click", () => {
+                    console.log(item);
+                    item.classList.toggle("checked");
+
+                    let checked = document.querySelectorAll(".checked"),
+                        btnTextPaidBy = document.querySelector(".btn-textPaidBy");
+
+                        if(checked && checked.length > 0){
+                            btnTextPaidBy.innerText = `${checked.length} Selected`;
+                        }else{
+                            btnTextPaidBy.innerText = "Paid By";
+                        }
+                });
+            })
+
+            itemsPaidFor.forEach(item => {
+                item.addEventListener("click", () => {
+                    console.log(item);
+                    item.classList.toggle("checked");
+
+                    let checked = document.querySelectorAll(".checked"),
+                        btnTextPaidFor = document.querySelector(".btn-textPaidFor");
+
+                        if(checked && checked.length > 0){
+                            btnTextPaidFor.innerText = `${checked.length} Selected`;
+                        }else{
+                            btnTextPaidFor.innerText = "Paid For";
+                        }
+                });
+            })
+        }
+
+        function createExpense() {
+            alert("add an expense");
+            document.getElementById("expense-box").style.display = "block";
+        }
+
+        function closeExpenseBox() {
+            document.getElementById("expense-box").style.display = "none";
+        }
+
+
+        
+    </script>
+</html>

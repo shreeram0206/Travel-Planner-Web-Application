@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/css/expense.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/create_group.css">
+</head>
+
+<div class="container">
+  <section class="menu">
+    <div class="logo">
+      <button type="button" class="main nav"></button>
+      <span>TravelPlanner</span>
+    </div>
+      
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a id="profile">Profile</a>
+      </li>
+      <li class="active">
+        <a href="/trip">Trip</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="slide">
+      <div class="desc">
+        <small>Expense Management</small>
+      </div>
+    </section>
+
+
+<nav>
+
+  <label for="touch"><span_groups><%=data.title%></span_groups></label> 
+  <input type="checkbox" id="touch">               
+  <ul class="slider" id="groups">
+    <% data.groups.forEach(function(d) { %>
+      <li>
+          <a href="/expenses?id=<%= d.id %>">
+            <%=d.name%>
+          </a>
+      </li>
+    <% })%>
+  </ul>
+
+</nav>
+  <div class="button">
+    <button id="create_group" class="create_group" onclick="createGroup()">Create Group</button>
+  </div>
+  
+</body>
+  
+
+  <div class="group-container" id="createGroup-popup">
+      <div class="wrap">
+        <h2>Create a Group</h2>
+        <br>
+        <a class="add">&plus;</a>
+      </div>
+      <label for="fname">Group Name:</label><br>
+      <input type="text" id="group_name" name="group_name"><br>
+      <br></br>
+      <div class="inp-group">
+      </div>
+      <br></br>
+      <button id="submit_group" class="submitGroupBox" onclick="submitGroup()">Submit</button>
+      <br></br>
+      <button id="close_group" class="closeGroupBox" onclick="closeGroup()">Close</button>
+  </div>
+</body>
+
+<script>
+    // let groups = ["Group1", "Group2", "Group3", "Group4"]
+    // var ul = document.getElementById("groups");
+    
+    // for (const x of groups) {
+    //   console.log(x);
+    //   var li = document.createElement("li");
+    //   var a = document.createElement("a");
+    //   a.appendChild(document.createTextNode(x));
+    //   li.appendChild(a);
+    //   a.href = `/expense?${x}`;
+    //   ul.appendChild(li);
+    // }
+
+    // let groups = {"Group1":{"persons":["name1", "name2"], "paid_by":"name1"}, "Group2":['name1', 'name3'], "Group3":[3], "Group4":[4]}
+    let groupsObj = {}
+    // let groups = <%- JSON.stringify(data.groups) %>
+    // console.log(groups);
+    // var ul = document.getElementById("groups");
+    var create_group = document.getElementById("createGroup-popup");
+    create_group.style.display = "none";
+    
+    // Object.keys(groups).forEach(key => {
+    //   let value = groups[key];
+    //   console.log(key, value);
+    //   var li = document.createElement("li");
+    //   var a = document.createElement("a");
+    //   a.appendChild(document.createTextNode(key));
+    //   li.appendChild(a);
+    //   a.href = `/expenses?group=${key}`;
+    //   ul.appendChild(li);
+    // });
+      
+    let url = "http://127.0.0.1:5000/creategroup";
+
+    function createGroup() {
+      var create_group = document.getElementById("createGroup-popup");
+      create_group.style.display = "block";
+    }
+
+    const add_person = document.querySelector(".add");
+    
+    const input = document.querySelector(".inp-group");
+
+    function removeInput() {
+      this.parentElement.remove();
+    }
+
+    function addInput() {
+
+      const person_name = document.createElement("input");
+      person_name.setAttribute("id", "person_name");
+      person_name.type = "text";
+      person_name.placeholder = "Enter person name";
+
+      const btn = document.createElement("a");
+      btn.className = "delete";
+      btn.innerHTML = "&times";
+
+      btn.addEventListener("click", removeInput);
+
+      const flex = document.createElement("div");
+      flex.className = "flex";
+
+      input.appendChild(flex);
+      flex.appendChild(person_name);
+      flex.appendChild(btn);
+
+    }
+
+    add_person.addEventListener("click", addInput);
+
+
+    function submitGroup() {
+      let jsonObj = {}
+      let persons = []
+      alert("Group submitted");
+      let group_name = document.getElementById("group_name").value;
+      // console.log(document.getElementById("group_name").value);
+      if (document.getElementById("person_name") == null) {
+        alert("Please add a person");
+      }
+      // console.log(document.getElementById("person_name").value);
+      var inputs = document.getElementsByTagName('input');
+      // console.log(inputs['group_name'].id);
+      for (const inp of inputs) {
+        if (inp.id == "person_name") {
+          console.log(inp.value);
+          persons.push(inp.value)
+        }
+      }
+      jsonObj['persons'] = persons
+      groupsObj[group_name] = jsonObj
+      // groups[group_name] = persons
+      console.log(groupsObj);
+      postRequest(url, groupsObj).then(data => {
+            console.log(data);
+      })
+    }
+
+    async function postRequest(url, groups) {
+        let data = {"groups" : groups};
+        let res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+        });
+        if (res.ok) {
+            let ret = await res.json();
+            return ret.response;
+
+        } else {
+            return `HTTP error: ${res.status}`;
+        }
+    }
+
+    function closeGroup() {
+      document.getElementById("createGroup-popup").style.display = "none";
+    }
+    
+</script>
+
+</html>

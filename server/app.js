@@ -19,6 +19,10 @@ const { place_resolvers } = require('./graphql/places')
 
 mongo_bot.init()
 
+app.set("view engine", "ejs");
+
+app.set('views', path.join(__dirname, 'views'));
+
 const PORT = process.env.PORT || 3000
 const app = express()
 
