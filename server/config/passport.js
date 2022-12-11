@@ -9,13 +9,16 @@ module.exports = function (passport) {
         callbackURL: '/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
+        console.log(profile)
         let newUser = {
             google_id: profile.id,
             display_name: profile.displayName,
             fname: profile.name.givenName,
             lname: profile.name.familyName,
-            image: profile.photos[0].value
+            image: profile.photos[0].value,
+            email: profile._json.email
         }
+
         try {
             let user = await mongo_bot.db.collection(mongo_config.user_collection).findOne({google_id: profile.id})
             if (user) {
@@ -33,17 +36,18 @@ module.exports = function (passport) {
 
     passport.serializeUser((user, cb) => {
         process.nextTick(() => {
-          return cb(null, {
-            id: user.id,
-            username: user.username,
-            picture: user.picture
-          });
+        //   return cb(null, {
+        //     id: user.id,
+        //     username: user.username,
+        //     picture: user.picture
+        //   });
+        cb(null, user)
         });
     });
       
     passport.deserializeUser((user, cb) => {
         process.nextTick(() => {
-          return cb(null, user);
+          cb(null, user);
         });
     });
 }

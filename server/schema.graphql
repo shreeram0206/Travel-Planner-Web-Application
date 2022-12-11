@@ -18,6 +18,7 @@ type User {
     fname: String!
     google_id: String!
     image: String
+    email: String
     lname: String
     trips: [Trip]
 }

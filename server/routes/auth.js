@@ -7,7 +7,7 @@ const router = express.Router()
 // @method  GET
 
 router.get('/google', passport.authenticate(
-    'google', {scope: ['profile']}
+    'google', {scope: ['profile', 'email']}
 ))
 
 

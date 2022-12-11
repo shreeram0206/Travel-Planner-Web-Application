@@ -14,6 +14,10 @@ let resolvers = {
             return google_id
         },
 
+        email: async ({email}, _, context) => {
+            return email
+        },
+
         image: ({image}, _, context) => {
             return image
         },

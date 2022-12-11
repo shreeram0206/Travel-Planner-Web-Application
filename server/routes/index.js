@@ -27,9 +27,9 @@ router.get('/', (req, res) => {
     res.sendFile('/project/server/views/landing_page.html')
 })
 
-router.get('/profile', (req, res) => {
-    res.sendFile('/project/server/views/profile.html')
-})
+// router.get('/profile', (req, res) => {
+//     res.sendFile('/project/server/views/profile.html')
+// })
 
 
 // @desc    Dashboard
@@ -48,7 +48,9 @@ router.get('/about',(req, res)=> {
 })
 
 router.get('/profile',(req, res)=> {
-    res.sendFile('/project/server/views/profile.html')
+    console.log(req.isAuthenticated())
+    console.log(req.user)
+    res.render('/project/server/views/test.html', {uid:req.user.google_id})
 })
 
 router.get('/trip',(req, res)=> {
