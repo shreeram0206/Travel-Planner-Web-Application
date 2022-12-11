@@ -26,7 +26,7 @@ type User {
 type Trip {
     destination: Place!
     admin: User!
-    members: [User]!
+    members: [String]!
     expenses: [Expense]!
     media: [String]!
 }
@@ -48,6 +48,7 @@ type Expense {
 input TripCreateInput {
     destination: String!
     admin_id: ID!
+    members: [String]
 }
 
 input AddExpenseInput {

@@ -3,7 +3,7 @@
 const axios = require('axios');
 require('dotenv').config()
 const { mongo_bot, mongo_config } = require('./config/db')
-const {Decorator} = require('./utils/decorators')
+const { Decorator } = require('./utils/decorators')
 const { kErrors } = require('./utils/errors')
 
 // Define base URLs and query parameters
@@ -65,8 +65,8 @@ class PlacesAPI {
     }
 }
 
-place_api = new PlacesAPI()
-place_api.getPlaceDetailsByName('grand_canyon').then(r => console.log(r))
+// place_api = new PlacesAPI()
+// place_api.getPlaceDetailsByName('Tahoe').then(r => console.log(r))
 
 module.exports = {
     PlacesAPI
