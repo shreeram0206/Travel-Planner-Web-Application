@@ -75,7 +75,7 @@ let resolvers = {
                         {$push: {trips: created.insertedId}}
                     )
                 if (update.matchedCount > 0) {
-                    context.loaders.user.clearMany(members_map)
+                    // context.loaders.user.clearMany(members_map)
                     return context.loaders.trip.load(created.insertedId)
                 }
                 else {
