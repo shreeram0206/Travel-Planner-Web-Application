@@ -1,5 +1,6 @@
 type Query {
     user(uid: ID!): User
+    getTrips(uid: ID!): [Trip]
     trip(tid: ID!): Trip
 }
 
@@ -24,14 +25,16 @@ type User {
 }
 
 type Trip {
+    _id: ID!
     destination: Place!
     admin: User!
-    members: [String]!
+    members: [User]!
     expenses: [Expense]!
     media: [String]!
 }
 
 type Place {
+    name: String!
     id: String!
     overview: String
     lat: Float!
@@ -41,7 +44,7 @@ type Place {
 type Expense {
     title: String!
     amount: Float!
-    paid_by: String!
+    paid_by: User!
     included_members: [User]!
 }
 

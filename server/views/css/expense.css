@@ -15,18 +15,19 @@ span_groups {
   padding : 30px;
   background : #ff574a; 
   color : white;
-  font-size : 1.2em;
+  font-size : 2em;
   font-variant : small-caps;
   cursor : pointer;
   display: block;
-  width: 500px;
+  /* width: 96.8%; */
+  text-align: center;
 }
 
-span_groups::after {
+span_groups::after{
   float: right;
-  right: 10%;
   content: "+";
 }
+
 
 .slider {
   clear:both;
@@ -40,9 +41,25 @@ span_groups::after {
   text-align: center;
   transition: height .4s ease;}
 
-#touch {position: absolute; opacity: 0; height: 0px;}    
+
+.slider2 {
+  clear:both;
+  width:100%;
+}
+
+.slider2 li {
+  height:0px;
+  line-height: 60px;
+  overflow: hidden;
+  text-align: center;
+  transition: height .4s ease;}
+
+
+#touch {position: absolute; opacity: 0; height: 0px;} 
+#touch2 {position: absolute; opacity: 0; height: 0px;} 
 
 #touch:checked + .slider li {height: 60px;}
+#touch2:checked + .slider2 li {height: 60px;}
 
 /* Create Group buttons */
 
@@ -89,4 +106,34 @@ span_groups::after {
 
 .button:hover {
   opacity: 0.5;
+}
+
+.content-table  td {
+  padding: 12px 15px;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  text-align: center;
+  margin: 25px 0;
+  font-size: 0.9em;
+}
+
+.content-table th {
+  background-color: #994545;
+  padding: 12px;
+  color: #ffffff;
+  text-align: center;
+  font-weight: bold;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+}
+  
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
 }

@@ -83,7 +83,7 @@ app.use(
             db_conn: mongo_bot,
             loaders: {
                 user: new DataLoader(keys => getUsers(mongo_bot, keys)),
-                trip: new DataLoader(keys => getTrips(mongo_bot, keys)),
+                trip: new DataLoader(keys => getTrips(mongo_bot, keys), { cache: false }),
                 place: new DataLoader(keys => getPlaces(mongo_bot, keys))
             }
         }

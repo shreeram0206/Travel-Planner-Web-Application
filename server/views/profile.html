@@ -24,7 +24,7 @@
           <a id="profile">Profile</a>
         </li>
         <li>
-          <a href="/trip">Trip</a>
+          <a href="/createTrip">Trip</a>
         </li>
       </ul>
     </section>
@@ -36,16 +36,52 @@
       </section>
 
 <body>
-    <div class="profile-container" id="profile-info">
-        <div class="profile-box">
-            <img src="images/menu.png" class="menu-icon">
-            <img src="images/setting.png" class="setting-icon">
-            <img src="images/profile-pic.jpg" class="profile-pic">
-            <h3 v-model="user_name">{{user_name}}</h3>
-            <p v-model="profile_info">{{profile_info}}</p>
-        </div>
-
+  <div class="profile-container" id="profile-info">
+    <div class="profile-box">
+      <img src="images/menu.png" class="menu-icon">
+      <img src="images/setting.png" class="setting-icon">
+      <img src="images/profile-pic.jpg" class="profile-pic" id="profile-pic">
+      <p id="display-name"></p>
     </div>
+  </div>
 </body>
-<script src="/js/profile.js"></script>
+<!-- <script src="/js/profile.js"></script> -->
+<script>
+  window.onload = async function handleSubmit() {
+  console.log(window)
+  // event.preventDefault();
+
+  // const data = new FormData(event.target);
+
+  // const json_data = Object.fromEntries(data.entries())
+  // console.log(json_data.uid)
+  let query_data = {
+    query: `query User($uid:ID!){
+      user (uid: $uid) {
+        fname,
+        lname,
+        display_name,
+        image
+        }
+      }`,
+      variables: {
+        uid: "<%= uid %>"
+    }
+  }
+
+  let url = '/graphql';
+  let response = await fetch(url, {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    body : JSON.stringify(query_data)
+  })
+  // console.log((await response.json()))
+  let user = await response.json()
+  
+  document.getElementById('profile-pic').src = user.data.user.image
+  document.getElementById('display-name').innerHTML = user.data.user.display_name        
+  }
+</script>
 </html>

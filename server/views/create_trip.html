@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/css/expense.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/create_group.css">
+</head>
+
+<div class="container">
+  <section class="menu">
+    <div class="logo">
+      <button type="button" class="main nav"></button>
+      <span>TravelPlanner</span>
+    </div>
+      
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a href="/profile" id="profile">Profile</a>
+      </li>
+      <li class="active">
+        <a href="/createTrip">Trip</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="slide">
+      <div class="desc">
+        <small>Expense Management</small>
+      </div>
+    </section>
+
+
+<nav>
+
+  <label for="touch"><span_groups>Your Trips</span_groups></label> 
+  <input type="checkbox" id="touch">               
+  <ul class="slider" id="groups">
+    
+  </ul>
+
+</nav>
+  <div class="button">
+    <button id="create_group" class="create_group" onclick="createGroup()">Create Group</button>
+  </div>
+  
+</body>
+  
+
+  <div class="group-container" id="createGroup-popup">
+      <div class="wrap">
+        <h2>Create a Trip</h2>
+        <br>
+        <a class="add">&plus;</a>
+      </div>
+      <label for="placename">Place Name:</label><br>
+      <input type="text" id="place_name" name="place_name" value="Lake Tahoe"><br>
+      <br></br>
+      <div class="inp-group">
+      </div>
+      <br></br>
+      <button id="submit_group" class="submitGroupBox" onclick="submitGroup()">Submit</button>
+      <br></br>
+      <button id="close_group" class="closeGroupBox" onclick="closeGroup()">Close</button>
+  </div>
+</body>
+
+<script>
+
+    // Request to graphql to populate groups.
+
+    let URL_GRAPHQL = '/graphql';
+
+    window.onload = populateCurrentUserTrips();
+
+    async function populateCurrentUserTrips() {
+      let getCurrentUserTrips = {
+        query: `query ($uid:ID!){
+            getTrips (uid: $uid) {
+                _id
+                destination{
+                  name
+                }
+            }
+        }`,
+        variables: {
+            uid: "<%= uid %>"
+        }
+      }
+
+      let trips = [];
+
+      try {
+        let response = await fetch(URL_GRAPHQL, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body : JSON.stringify(getCurrentUserTrips)
+        })
+        trips = (await response.json()).data.getTrips;
+      }
+      catch (err) {
+        console.log(err)
+      }
+
+      console.log(trips)
+      var ul = document.getElementById("groups");
+      for (const x of trips) {
+        console.log(x);
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.appendChild(document.createTextNode(x.destination.name));
+        li.appendChild(a);
+        a.href = `/trip/${x._id}`;
+        ul.appendChild(li);
+      }
+    }
+
+    // Create group pop up display set to none on loading page.
+    var create_group = document.getElementById("createGroup-popup");
+    create_group.style.display = "none";
+    
+
+    function createGroup() {
+      var create_group = document.getElementById("createGroup-popup");
+      create_group.style.display = "block";
+    }
+
+    const add_person = document.querySelector(".add");
+    
+    const input = document.querySelector(".inp-group");
+
+    function removeInput() {
+      this.parentElement.remove();
+    }
+
+    function addInput() {
+
+      const email_id = document.createElement("input");
+      email_id.setAttribute("id", "email_id");
+      email_id.type = "text";
+      email_id.placeholder = "Enter email id";
+      email_id.setAttribute("value", "m.adityaanulekh@gmail.com")
+
+      const btn = document.createElement("a");
+      btn.className = "delete";
+      btn.innerHTML = "&times";
+
+      btn.addEventListener("click", removeInput);
+
+      const flex = document.createElement("div");
+      flex.className = "flex";
+
+      input.appendChild(flex);
+      flex.appendChild(email_id);
+      flex.appendChild(btn);
+
+    }
+
+    add_person.addEventListener("click", addInput);
+
+
+    async function submitGroup() {
+      let jsonObj = {}
+      let persons = []
+      let place_name = document.getElementById("place_name").value
+      if (document.getElementById("email_id") == null) {
+        alert("Please add a person");
+      }
+      var inputs = document.getElementsByTagName('input');
+      for (const inp of inputs) {
+        if (inp.id == "email_id") {
+          
+          persons.push(inp.value)
+        }
+      }
+      jsonObj['members'] = persons
+      jsonObj['destination'] = place_name
+
+      let trip_data = {
+        query: `mutation ($destination: String!, $admin_id: ID! $members: [String]){
+            createTrip(trip_input:{
+              destination: $destination,
+              admin_id: $admin_id,
+              members: $members
+            }) {destination{overview}}
+          }`,
+        variables: {
+          admin_id: "<%= uid %>",
+          destination: jsonObj.destination,
+          members: jsonObj.members
+        }
+      }
+      let response = await postRequestGraphql(URL_GRAPHQL, trip_data);
+      // location.reload()
+    }
+
+
+
+    async function postRequestGraphql(URL_GRAPHQL, query_data) {
+      try {
+        let response = await fetch(URL_GRAPHQL, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(query_data)
+        })
+        let overview = await response.json()
+        console.log(overview)
+        alert("Group Created!")
+        return overview
+      }
+      catch (err) {
+          console.log(err)
+      }
+    }
+
+    function closeGroup() {
+      document.getElementById("createGroup-popup").style.display = "none";
+    }
+    
+</script>
+
+</html>

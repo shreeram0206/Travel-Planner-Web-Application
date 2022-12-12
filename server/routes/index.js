@@ -4,6 +4,8 @@ const { ObjectId } = require('mongodb')
 const { mongo_bot, mongo_config } = require('../config/db')
 const { MulterStorage, storeFilesToS3 } = require('../utils/utils')
 const {kErrors} = require('../utils/errors')
+const { ensureAuth, ensureGuest } = require('../middleware/auth')
+const { split_expenses } = require('../expense_splitting/expenses')
 
 const router = express.Router()
 
@@ -24,49 +26,52 @@ const upload = multer({
 
 router.get('/', (req, res) => {
     // res.send('Login')
-    res.sendFile('/project/server/views/landing_page.html')
+    // res.sendFile('/project/server/views/landing_page.html')
+    res.render('landing_page.html', {auth_status: req.isAuthenticated()})
 })
 
-// router.get('/profile', (req, res) => {
-//     res.sendFile('/project/server/views/profile.html')
-// })
-
-
-// @desc    Dashboard
-// @method  GET
-
-router.get('/dashboard', (req, res) => {
-    res.send('Dashboard')
-})
-
-router.get('/login', (req, res) => {
-    res.send('Login')
-})
 
 router.get('/about',(req, res)=> {
-    res.sendFile('/project/server/views/about.html')
+    res.render('about.html')
 })
 
-router.get('/profile',(req, res)=> {
-    console.log(req.isAuthenticated())
-    console.log(req.user)
-    res.render('/project/server/views/test.html', {uid:req.user.google_id})
+
+router.get('/profile', ensureAuth, (req, res)=> {
+    res.render('profile.html', {uid:req.user.google_id})
 })
 
-router.get('/trip',(req, res)=> {
-    res.sendFile('/project/server/views/trip.html')
+
+// @desc    Route to create trip
+// @method  GET
+// TODO: Add authentication
+router.get('/createTrip', ensureAuth, (req, res) => {
+    // let data = await mongo_bot.
+    console.log(req.user.google_id)
+    res.render('create_trip.html', {uid:req.user.google_id})
 })
 
+
+// @desc    Route to see trip
+// @method  GET
+// TODO: Add Authentication
+router.get('/trip/:tid', ensureAuth, async (req, res) => {
+    let trip = await mongo_bot.db.collection(mongo_config.trip_collection).findOne({_id: ObjectId(req.params.tid)})
+    let splits = split_expenses(trip.members, trip.expenses)
+    console.log(splits)
+    res.render('trip', {tid:req.params.tid, splits})
+})
 
 // @desc    Add media to trip
 // @method  POST
 
-// TODO - Handle MulterError
+// TODO - Handle MulterError (More than allowed number)
 
 router.post(
     '/trip/upload/:tripid', 
-    upload.array("media"), 
+    upload.array("media"),
+    ensureAuth,
     async (req, res) => {
+        console.log(req)
         // Check if trip exists
         let trip = await mongo_bot.db.collection(mongo_config.trip_collection).findOne(
             {_id: ObjectId(req.params.tripid)}
@@ -88,6 +93,7 @@ router.post(
 
         // Send response based on status of upload
         if (update.matchedCount > 0) {
+            
             res.sendStatus(204);
         }
         else {

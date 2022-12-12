@@ -1,5 +1,7 @@
 'use strict'
 
+const { mongo_bot, mongo_config } = require('../config/db')
+
 let resolvers = {
     User: {
         display_name: ({display_name}, _, context) => {
@@ -30,7 +32,7 @@ let resolvers = {
             return trips
         },
 
-    }
+    },
 }
 
 

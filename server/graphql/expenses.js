@@ -13,10 +13,10 @@ let resolvers = {
             return amount
         },
         paid_by: async ({paid_by}, _, context) => {
-            return paid_by
+            return context.loaders.user.load(paid_by)
         },
         included_members: async ({included_members}, _, context) => {
-            return included_members
+            return context.loaders.user.loadMany(included_members)
         },
     },
     Mutation: {
@@ -32,6 +32,7 @@ let resolvers = {
                 ).updateOne({_id: ObjectId(trip_id)}, 
                             {$push: {expenses: expense_obj}})
             if (update.matchedCount > 0) {
+                // context.loaders.trip.clear(trip_id)
                 return expense_obj
             }
             else {

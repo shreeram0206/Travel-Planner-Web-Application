@@ -54,10 +54,10 @@ class PlacesAPI {
 
     async getPlaceDetailsByName(search_string) {
         let place_id = await this.getPlaceId(search_string)
-        let { editorial_summary:{overview}, geometry } = await this.getPlaceDetailsByID(place_id)
+        let { editorial_summary:{overview}, geometry, name} = await this.getPlaceDetailsByID(place_id)
         
         // Change the format of the response and write to DB
-        let response = Decorator.PlaceDecorator(place_id, overview, geometry)
+        let response = Decorator.PlaceDecorator(place_id, overview, geometry, name)
 
         let insert_status = await mongo_bot.db.collection(mongo_config.place_collection).insertOne(response)
 

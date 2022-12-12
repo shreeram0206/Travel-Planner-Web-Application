@@ -54,9 +54,11 @@
         <small id="dest_overview"></small>
       </div>
     </section>
-
-  <div id="expenseDetails">
-  </div>
+    <div id="expenseDetails">
+        <% splits.forEach(function(user) { %>
+            <li><%= user %></li>
+        <% }); %>
+      </div>
 
   <label for="touch1"><span_groups>Media</span_groups></label>
   <br></br>
@@ -138,9 +140,37 @@
 
         populateCheckBoxes(".itemPaidBy", ".itemPaidFor",  "paid_by", "paid_for");
 
+        let splits = <%- JSON.stringify(splits) %>
+        console.log("splits", splits);
+
         let URL_GRAPHQL = '/graphql';
 
         window.onload = populatePage();
+
+        async function getMemberName(member_id) {
+            let get_member_names = {
+                query: `query ($uid:ID!){
+                    user (uid: $uid) {display_name}
+                }`,
+                variables: {
+                    tid: member_id
+                }
+            }
+            try {
+                let response = await fetch(URL_GRAPHQL, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                body : JSON.stringify(get_member_names)
+                })
+                member_name = (await response.json()).data.user.display_name;
+                console.log(member_name)                
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
 
         async function populatePage() {
             let tripDetails;
@@ -159,6 +189,9 @@
             }
 
             let expenseDetails = document.getElementById('expenseDetails')
+            // let splits = <%= splits%>
+            
+            // expenseDetails.innerHTML = JSON.parse("<%= splits %>")
 
             try {
                 let response = await fetch(URL_GRAPHQL, {
@@ -173,6 +206,10 @@
             catch (err) {
                 console.log(err)
             }
+
+            let member_names = []
+
+            
 
             // Populate trip summary
             populateTripSummary(tripDetails.destination.name, tripDetails.destination.overview);
@@ -191,6 +228,11 @@
             
             // Populate Profile info
             populateProfileInfo(tripDetails.members);
+
+            //for (const split of splits) {
+              //  getMemberName(split[0])
+                //getMemberName(split[1])
+            //}
         }
 
         function populateTripSummary(trip_name, dest_overview) {
@@ -217,14 +259,14 @@
             }
         }
 
-        function populateExpenseDetails(expense_list) {
-            for(const exp of expense_list) {
-                let expenseDetailsElement = document.getElementById("expenseDetails");
-                let exp_name = document.createElement("small");
-                expenseDetailsElement.appendChild(exp_name);
-                exp_name.innerHTML = exp
-            }
-        }
+        // function populateExpenseDetails(expense_list) {
+        //     for(const exp of expense_list) {
+        //         let expenseDetailsElement = document.getElementById("expenseDetails");
+        //         let exp_name = document.createElement("small");
+        //         expenseDetailsElement.appendChild(exp_name);
+        //         exp_name.innerHTML = exp
+        //     }
+        // }
 
 
         function populateMedia(media) {
@@ -249,6 +291,7 @@
                 var slide_ele = document.getElementById("tripSummary");
                 var profile_img = document.createElement("img");
                 profile_img.src = member_info.image;
+                profile_img.setAttribute("referrerpolicy", "no-referrer")
                 slide_ele.appendChild(profile_img);
             }
             

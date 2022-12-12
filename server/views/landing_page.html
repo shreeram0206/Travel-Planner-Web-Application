@@ -22,7 +22,7 @@
           <a href="/profile" id="profile">Profile</a>
         </li>
         <li>
-          <a href="/trip">Trip</a>
+          <a href="/createTrip">Trip</a>
         </li>
       </ul>
       
@@ -31,7 +31,6 @@
         <ul>
           <li>
             <a v-if="showSignedInUser">Hello, </a>
-            <!-- <a v-if="showSignedInUser">Hello, {{signIn()}}</a> -->
           </li>
         </ul>
       </div>
@@ -48,28 +47,7 @@
       </div>
       <div class="pic"></div>
     </section>
-    
-    <section class="controls">
-      <div class="items">
-        <div class="item destination">
-          <span>Destination</span>
-          <input type="text" placeholder="Where You Want To Go?" />
-        </div>
-        <div class="item checkin">
-          <span>Check In</span>
-          <input type="text" placeholder="Where You Want To Go?" />
-        </div>
-        <div class="item checkin">
-          <span>Check Out</span>
-          <input type="text" placeholder="Where You Want To Go?" />
-        </div>
-        <div class="item guests">
-          <span>Guests & Rooms</span>
-          <input type="text" placeholder="Where You Want To Go?" />
-        </div>
-      </div>
-      <button type="button" class="main nav"></button>
-    </section>
 </div>
 <script src="/js/signIn.js"></script>
+
 </html>

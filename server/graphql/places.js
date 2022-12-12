@@ -17,6 +17,9 @@ let resolvers = {
         lng: async ({lng}, _, context) => {
             return lng
         },
+        name: async ({name}, _, context) => {
+            return name
+        },
     }
 }
 

@@ -36,18 +36,39 @@
 
   <section class="slide">
       <div class="desc">
-        <small><%=data.group_name%></small>
+        <h1><%=data.group_name%></h1>
       </div>
     </section>
+
+
+    <nav>
+
+        <!-- <label for="touch"><span_groups><%=data.title%></span_groups></label> -->
+        <label for="touch1"><span_groups>Overview</span_groups></label>
+        <input type="checkbox" id="touch1"> 
+      
+        <ul class="slider1" id="overview">
+          <% data.expenses.forEach(function(d) { %>
+              <li>
+                  <div>
+                      <%=d.title%> 
+                      <%=d.amount%>
+                      <%=d.paid_by.display_name%>
+                  </div>
+              </li>
+            <% })%>
+        </ul>
+      
+      </nav>
 
 
 <nav>
 
   <!-- <label for="touch"><span_groups><%=data.title%></span_groups></label> -->
-  <label for="touch"><span_groups><%=data.title%></span_groups></label>
-  <input type="checkbox" id="touch"> 
+  <label for="touch2"><span_groups>Your Expenses</span_groups></label>
+  <input type="checkbox" id="touch2"> 
 
-  <ul class="slider" id="groups">
+  <ul class="slider2" id="expenses">
     <% data.expenses.forEach(function(d) { %>
         <li>
             <div>
@@ -60,6 +81,29 @@
   </ul>
 
 </nav>
+
+
+<nav>
+
+    <!-- <label for="touch"><span_groups><%=data.title%></span_groups></label> -->
+    <label for="touch3"><span_groups>Media</span_groups></label>
+    <input type="checkbox" id="touch3"> 
+  
+    <ul class="slider3" id="groups">
+      <% data.expenses.forEach(function(d) { %>
+          <li>
+              <div>
+                  <%=d.title%> 
+                  <%=d.amount%>
+                  <%=d.paid_by.display_name%>
+              </div>
+          </li>
+        <% })%>
+    </ul>
+  
+  </nav>
+
+
   <div class="button">
     <button id="create_group" class="create_group" onclick="createExpense()">Add an Expense</button>
   </div>
@@ -152,7 +196,76 @@
         </div>
     <script>
 
+        // let expenseObj = {"title": "Rent", "amount": 800, "paid_by":"shreeram@usc.edu", "included_members":{}}
+
         populateCheckBoxes(".itemPaidBy", ".itemPaidFor",  "paid_by", "paid_for");
+        
+
+    //     <% data.expenses.forEach(function(d) { %>
+    //     <li>
+    //         <div>
+    //             <%=d.title%> 
+    //             <%=d.amount%>
+    //             <%=d.paid_by.display_name%>
+    //         </div>
+    //     </li>
+    //   <% })%>
+
+        let expenseObj = [{
+                "title": "Rent",
+                "amount": 870,
+                "paid_by": {"display_name":"Shreeram",
+                            "fname":"",
+                            "google_id":"",
+                            "image":"",
+                            "lname":"",
+                            "trips":[]},
+                "included_members": [{"display_name":"Shreeram",
+                                    "fname":"",
+                                    "google_id":"",
+                                    "image":"",
+                                    "lname":"",
+                                    "trips":[]},
+                                    {"display_name":"Rohit",
+                                    "fname":"",
+                                    "google_id":"",
+                                    "image":"",
+                                    "lname":"",
+                                    "trips":[]}]
+            }]
+        function populateExpenses() {
+            var ul = document.getElementById("expenses");
+            for (const x of expenses) {
+                console.log(x);
+                var li = document.createElement("li");
+                var div = document.createElement("div");
+                var a = document.createElement("a");
+                a.appendChild(document.createTextNode(x));
+                div.appendChild(a);
+                li.appendChild(div);
+                ul.appendChild(li);
+            }
+        }
+
+        function populateOverview() {
+            var ul = document.getElementById("overview");
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.appendChild(document.createTextNode(dest_overview));
+
+        }
+
+        // <% data.expenses.forEach(function(d) { %>
+        //       <li>
+        //           <div>
+        //               <%=d.title%> 
+        //               <%=d.amount%>
+        //               <%=d.paid_by.display_name%>
+        //           </div>
+        //       </li>
+        //     <% })%>
+
+
 
         // Close expense box at first
         document.getElementById("expense-box").style.display = "none";
